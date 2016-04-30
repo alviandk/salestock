@@ -34,6 +34,22 @@ class Product(models.Model):
 		return reverse("product_detail", kwargs={"pk": self.pk})
 
 
+def image_upload_to(instance, filename):
+	title = instance.product.title
+	slug = slugify(title)
+	basename, file_extension = filename.split(".")
+	new_filename = "%s-%s.%s" %(slug, instance.id, file_extension)
+	return "products/%s/%s" %(slug, new_filename)
+
+
+class ProductImage(models.Model):
+	product = models.ForeignKey(Product)
+	image = models.ImageField(upload_to=image_upload_to)
+
+	def __unicode__(self):
+		return self.product.title
+
+
 class Variation(models.Model):
     product = models.ForeignKey(Product)
     color = models.CharField(max_length=120)
