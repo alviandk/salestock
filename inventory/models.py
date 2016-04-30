@@ -19,18 +19,19 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=120)
-    description = models.TextField(blank=True, null=True)
-    active = models.BooleanField(default=True)
-    categories = models.ManyToManyField('Category', blank=True)
+	title = models.CharField(max_length=120)
+	description = models.TextField(blank=True, null=True)
+	price = models.DecimalField(decimal_places=2, max_digits=20)
+	active = models.BooleanField(default=True)
+	categories = models.ManyToManyField('Category', blank=True)
 
-    class Meta:
-        ordering = ["-title"]
+	class Meta:
+		ordering = ["-title"]
 
-    def __unicode__(self): #def __str__(self):
+	def __unicode__(self): #def __str__(self):
 		return self.title
 
-    def get_absolute_url(self):
+	def get_absolute_url(self):
 		return reverse("product_detail", kwargs={"pk": self.pk})
 
 

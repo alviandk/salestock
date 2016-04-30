@@ -6,47 +6,43 @@ from rest_framework.reverse import reverse
 
 from inventory.models import Category, Product, Variation
 
-class CategorySerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='category_detail_api')
-	product_set = ProductSerializer(many=True)
-
-    class Meta:
-		model = Category
-		fields = [
-			"url",
-			"id",
-			"title",
-			"description",
-			"product_set",
-
-		]
-
 
 class VariationSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Variation
 		fields = [
 			"id",
-			"title",
+			"color",
+			"size",
 			"price",
 		]
 
 
 class ProductSerializer(serializers.ModelSerializer):
-	url = serializers.HyperlinkedIdentityField(view_name='products_detail_api')
+
 	variation_set = VariationSerializer(many=True)
+	image = serializers.SerializerMethodField()
 	class Meta:
 		model = Product
 		fields = [
-			"url",
 			"id",
 			"title",
+			"image",
 			"variation_set",
 		]
+
+	def get_image(self, obj):
+		try:
+			return obj.productimage_set.first().image.url
+		except:
+			return None
+
+
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
 	variation_set = VariationSerializer(many=True, read_only=True)
+	image = serializers.SerializerMethodField()
 	class Meta:
 		model = Product
 		fields = [
@@ -54,8 +50,12 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 			"title",
 			"description",
 			"price",
+			"image",
 			"variation_set",
 		]
+
+	def get_image(self, obj):
+		return obj.productimage_set.first().image.url
 
 
 class ProductDetailUpdateSerializer(serializers.ModelSerializer):
@@ -88,3 +88,19 @@ class ProductDetailUpdateSerializer(serializers.ModelSerializer):
 		instance.title = validated_data["title"]
 		instance.save()
 		return instance
+
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    product_set = ProductSerializer(many=True)
+
+    class Meta:
+		model = Category
+		fields = [
+			
+			"id",
+			"title",
+			"description",
+			"product_set",
+
+		]
