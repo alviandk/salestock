@@ -24,7 +24,6 @@ class Product(models.Model):
 	active = models.BooleanField(default=True)
 	category = models.ForeignKey('Category', blank=True, null=True, related_name='product_category')
 
-
 	class Meta:
 		ordering = ["-title"]
 
