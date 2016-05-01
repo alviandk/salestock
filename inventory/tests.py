@@ -6,7 +6,7 @@ from rest_framework.test import APIClient, APITestCase
 
 from inventory.models import Category, Product, Variation
 
-class AccountTests(APITestCase):
+class CategoryTests(APITestCase):
     def test_create_category(self):
         """
         Ensure we can create a new category object.

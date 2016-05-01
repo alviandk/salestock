@@ -21,9 +21,9 @@ class Category(models.Model):
 class Product(models.Model):
 	title = models.CharField(max_length=120)
 	description = models.TextField(blank=True, null=True)
-	price = models.DecimalField(decimal_places=2, max_digits=20)
 	active = models.BooleanField(default=True)
-	categories = models.ManyToManyField('Category', blank=True)
+	category = models.ForeignKey('Category', blank=True, null=True, related_name='product_category')
+
 
 	class Meta:
 		ordering = ["-title"]
@@ -53,10 +53,9 @@ class ProductImage(models.Model):
 
 class Variation(models.Model):
     product = models.ForeignKey(Product)
-    color = models.CharField(max_length=120)
-    size = models.CharField(max_length=120)
+    color = models.CharField(max_length=120, null=True, blank=True)
+    size = models.CharField(max_length=120, null=True, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=20)
-    sale_price = models.DecimalField(decimal_places=2, max_digits=20, null=True, blank=True)
     active = models.BooleanField(default=True)
     inventory = models.IntegerField(null=True, blank=True) #refer none == unlimited amount
 
@@ -74,15 +73,3 @@ class Variation(models.Model):
 
     def get_title(self):
 		return "%s -%s -%s" %(self.product.title, self.color, self.size)
-
-def product_post_saved_receiver(sender, instance, created, *args, **kwargs):
-	product = instance
-	variations = product.variation_set.all()
-	if variations.count() == 0:
-		new_var = Variation()
-		new_var.product = product
-		new_var.title = "Default"
-		new_var.price = product.price
-		new_var.save()
-
-post_save.connect(product_post_saved_receiver, sender=Product)

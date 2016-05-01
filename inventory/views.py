@@ -8,62 +8,13 @@ from rest_framework.reverse import reverse as api_reverse
 from rest_framework.views import APIView
 
 from .filters import ProductFilter
-from .models import Product, Category
+from .models import Product, Category, Variation
 from .pagination import ProductPagination, CategoryPagination
 from .serializers import (
 		CategorySerializer,
 		ProductSerializer,
-		 ProductDetailSerializer,
-		 ProductDetailUpdateSerializer
+		VariationSerializer,
 		)
-
-
-class APIHomeView(APIView):
-
-	def get(self, request, format=None):
-		data = {
-
-			"products": {
-				"count": Product.objects.all().count(),
-				"url": api_reverse("products_api", request=request)
-			},
-			"categories": {
-				"count": Category.objects.all().count(),
-				"url": api_reverse("categories_api", request=request)
-			},
-
-		}
-		return Response(data)
-
-
-class CategoryListAPIView(generics.ListAPIView):
-	queryset = Category.objects.all()
-	serializer_class = CategorySerializer
-	pagination_class = CategoryPagination
-
-
-class CategoryRetrieveAPIView(generics.RetrieveAPIView):
-	queryset = Category.objects.all()
-	serializer_class = CategorySerializer
-
-
-class ProductListAPIView(generics.ListAPIView):
-	queryset = Product.objects.all()
-	serializer_class = ProductSerializer
-	filter_backends = [
-					filters.SearchFilter,
-					filters.OrderingFilter,
-					filters.DjangoFilterBackend
-					]
-	search_fields = ["title", "description"]
-	ordering_fields  = ["title", "id"]
-	filter_class = ProductFilter
-	pagination_class = ProductPagination
-
-
-class ProductRetrieveAPIView(generics.RetrieveAPIView):
-	queryset = Product.objects.all()
-	serializer_class = ProductDetailSerializer
 
 
 class DefaultsMixin(object):
@@ -91,8 +42,14 @@ class DefaultsMixin(object):
 	)
 
 
+class VariationViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    """API endpoint for POST, PUT, GET, PATCH and DELETE Variation."""
+    queryset = Variation.objects.all()
+    serializer_class = VariationSerializer
+
+
 class ProductViewSet(DefaultsMixin, viewsets.ModelViewSet):
-    """API endpoint for listing and creating Products."""
+    """API endpoint for POST, PUT, GET, PATCH and DELETE Products."""
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_class = ProductFilter
@@ -101,7 +58,7 @@ class ProductViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
 
 class CategoryViewSet(DefaultsMixin, viewsets.ModelViewSet):
-    """API endpoint for listing and creating Categories."""
+    """API endpoint for POST, PUT, GET, PATCH and DELETE Categories."""
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     search_fields = ('title', )
