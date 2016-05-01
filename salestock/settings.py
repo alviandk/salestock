@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'k#vr)+4wlzxug2tg51+(kdkglbyjx7l0hzft@w_6uil_s5%s$8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['alviandk.pythonanywhere.com',]
 
 
 # Application definition
