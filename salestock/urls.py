@@ -18,7 +18,7 @@ from inventory.views import (
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
-    url(r'^api/docs/', include('rest_framework_swagger.urls')),
+    url(r'^api/console/', include('rest_framework_swagger.urls')),
 )
 
 #API Patterns

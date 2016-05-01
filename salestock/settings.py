@@ -91,7 +91,7 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+        #'rest_framework.renderers.BrowsableAPIRenderer',
 
     ),
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
@@ -104,3 +104,9 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     TEMPLATE_PATH,
 )
+SWAGGER_SETTINGS = {
+    'info': {
+        'title': 'Salestock Assestment REST API',
+    },
+
+}

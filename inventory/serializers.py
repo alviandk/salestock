@@ -92,15 +92,15 @@ class ProductDetailUpdateSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
 
-    product_set = ProductSerializer(many=True)
+    #product_set = ProductSerializer(many=True, read_only=True)
 
     class Meta:
 		model = Category
 		fields = [
-			
+
 			"id",
 			"title",
 			"description",
-			"product_set",
+			#"product_set",
 
 		]
