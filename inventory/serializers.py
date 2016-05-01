@@ -40,6 +40,7 @@ class ProductSerializer(serializers.ModelSerializer):
 			"id",
 			"category",
 			"title",
+			"description",
 			"image",
 			"variation_set",
 		]

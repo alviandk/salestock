@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse as api_reverse
 from rest_framework.views import APIView
 
-from .filters import ProductFilter
+from .filters import ProductFilter, VariationFilter
 from .models import Product, Category, Variation
 from .pagination import ProductPagination, CategoryPagination
 from .serializers import (
@@ -46,6 +46,7 @@ class VariationViewSet(DefaultsMixin, viewsets.ModelViewSet):
     """API endpoint for POST, PUT, GET, PATCH and DELETE Variation."""
     queryset = Variation.objects.all()
     serializer_class = VariationSerializer
+    filter_class = VariationFilter
 
 
 class ProductViewSet(DefaultsMixin, viewsets.ModelViewSet):

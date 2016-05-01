@@ -59,16 +59,13 @@ class Variation(models.Model):
     inventory = models.IntegerField(null=True, blank=True) #refer none == unlimited amount
 
     def __unicode__(self):
-		return self.title
+		return "%s - %s - %s" %(self.product.title, self.color, self.size)
 
     def get_price(self):
-		if self.sale_price is not None:
-			return self.sale_price
-		else:
-			return self.price
+		return self.price
 
     def get_absolute_url(self):
 		return self.product.get_absolute_url()
 
     def get_title(self):
-		return "%s -%s -%s" %(self.product.title, self.color, self.size)
+		return "%s - %s - %s" %(self.product.title, self.color, self.size)
