@@ -20,7 +20,7 @@ class VariationSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
 
-	variation_set = VariationSerializer(many=True)
+	variation_set = VariationSerializer(many=True, read_only=True)
 	image = serializers.SerializerMethodField()
 	class Meta:
 		model = Product
